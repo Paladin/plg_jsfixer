@@ -231,11 +231,12 @@ class PlgSystemJsfixer extends JPlugin
 		}
 
 		JHtml::_('script', '//code.jquery.com/jquery-1.12.4.min.js', array(
-			'integrity' => "sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=",
-			'crossorigin' => "anonymous",
 			'version' => 'auto',
 			'relative' => false,
 			'detectDebug' => $debug
+		), array(
+			'integrity' => "sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=",
+			'crossorigin' => "anonymous"
 		));
 
 		// Check if we are loading in noConflict
@@ -248,11 +249,12 @@ class PlgSystemJsfixer extends JPlugin
 		if ($migrate)
 		{
 			JHtml::_('script', '//code.jquery.com/jquery-migrate-1.4.1.min.js', array(
-				'integrity' => "sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=",
-				'crossorigin' => "anonymous",
 				'version' => 'auto',
 				'relative' => false,
 				'detectDebug' => $debug
+			), array(
+				'integrity' => "sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=",
+				'crossorigin' => "anonymous"
 			));
 		}
 
