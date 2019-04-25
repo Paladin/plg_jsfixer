@@ -39,6 +39,11 @@ class PlgSystemJsfixer extends JPlugin
 			JHtml::register('bootstrap.tooltip', 'PlgSystemJsfixer::tooltip');
 		}
 
+		if (!JHtml::isRegistered('jquery.framework'))
+		{
+			JHtml::register('jquery.framework', 'PlgSystemJsfixer::framework');
+		}
+
 	}
 	/**
 	 * Override javascript support for Bootstrap popovers with code that checks to
@@ -190,6 +195,63 @@ class PlgSystemJsfixer extends JPlugin
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;
 		}
+
+		return;
+	}
+	/**
+	 * Method to load the jQuery JavaScript framework into the document head
+	 *
+	 * If debugging mode is on an uncompressed version of jQuery is included for easier debugging.
+	 *
+	 * @param   boolean  $noConflict  True to load jQuery in noConflict mode [optional]
+	 * @param   mixed    $debug       Is debugging mode on? [optional]
+	 * @param   boolean  $migrate     True to enable the jQuery Migrate plugin
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function framework($noConflict = true, $debug = null, $migrate = true)
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null)
+		{
+			$debug = (boolean) JFactory::getConfig()->get('debug');
+		}
+
+		JHtml::_('script', '//code.jquery.com/jquery-1.12.4.min.js', array(
+			'integrity' => "sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=",
+			'crossorigin' => "anonymous",
+			'version' => 'auto',
+			'relative' => false,
+			'detectDebug' => $debug
+		));
+
+		// Check if we are loading in noConflict
+		if ($noConflict)
+		{
+			JHtml::_('script', 'jui/jquery-noconflict.js', array('version' => 'auto', 'relative' => true));
+		}
+
+		// Check if we are loading Migrate
+		if ($migrate)
+		{
+			JHtml::_('script', '//code.jquery.com/jquery-migrate-1.4.1.min.js', array(
+				'integrity' => "sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=",
+				'crossorigin' => "anonymous",
+				'version' => 'auto',
+				'relative' => false,
+				'detectDebug' => $debug
+			));
+		}
+
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
