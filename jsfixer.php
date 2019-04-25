@@ -44,6 +44,11 @@ class PlgSystemJsfixer extends JPlugin
 			JHtml::register('jquery.framework', 'PlgSystemJsfixer::framework');
 		}
 
+		if (!JHtml::isRegistered('bootstrap.framework'))
+		{
+			JHtml::register('bootstrap.framework', 'PlgSystemJsfixer::bootstrapframework');
+		}
+
 	}
 	/**
 	 * Override javascript support for Bootstrap popovers with code that checks to
@@ -251,6 +256,47 @@ class PlgSystemJsfixer extends JPlugin
 			));
 		}
 
+		static::$loaded[__METHOD__] = true;
+
+		return;
+	}
+	/**
+	 * Method to load the Bootstrap JavaScript framework into the document head
+	 *
+	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
+	 *
+	 * @param   mixed  $debug  Is debugging mode on? [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function bootstrapframework($debug = null)
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Load jQuery
+		JHtml::_('jquery.framework');
+
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null)
+		{
+			$debug = JDEBUG;
+		}
+
+		JHtml::_('script', '//stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array(
+			'version' => 'auto',
+			'relative' => false,
+			'detectDebug' => $debug
+		), array(
+			'integrity' => "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa",
+			'crossorigin' => "anonymous",
+			'async' => "async"
+		));
 		static::$loaded[__METHOD__] = true;
 
 		return;
