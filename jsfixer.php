@@ -231,7 +231,6 @@ class PlgSystemJsfixer extends JPlugin
 		}
 
 		JHtml::_('script', '//code.jquery.com/jquery-1.12.4.min.js', array(
-			'version' => 'auto',
 			'relative' => false,
 			'detectDebug' => $debug
 		), array(
@@ -249,7 +248,6 @@ class PlgSystemJsfixer extends JPlugin
 		if ($migrate)
 		{
 			JHtml::_('script', '//code.jquery.com/jquery-migrate-1.4.1.min.js', array(
-				'version' => 'auto',
 				'relative' => false,
 				'detectDebug' => $debug
 			), array(
@@ -291,7 +289,6 @@ class PlgSystemJsfixer extends JPlugin
 		}
 
 		JHtml::_('script', '//stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array(
-			'version' => 'auto',
 			'relative' => false,
 			'detectDebug' => $debug
 		), array(
