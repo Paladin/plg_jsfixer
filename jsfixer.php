@@ -39,12 +39,12 @@ class PlgSystemJsfixer extends JPlugin
 			JHtml::register('bootstrap.tooltip', 'PlgSystemJsfixer::tooltip');
 		}
 
-		if (!JHtml::isRegistered('jquery.framework'))
+		if (!JHtml::isRegistered('jquery.framework') && $this->params->get('jquery_use', false))
 		{
 			JHtml::register('jquery.framework', 'PlgSystemJsfixer::framework');
 		}
 
-		if (!JHtml::isRegistered('bootstrap.framework'))
+		if (!JHtml::isRegistered('bootstrap.framework') && $this->params->get('bootstrap_use', false))
 		{
 			JHtml::register('bootstrap.framework', 'PlgSystemJsfixer::bootstrapframework');
 		}

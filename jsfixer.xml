@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>arlen.walker@pkware.com</authorEmail>
 	<authorUrl>www.pkware.com</authorUrl>
-	<version>0.3.0</version>
+	<version>0.5.0</version>
 	<description>PLG_SYSTEM_JSFIXER_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="jsfixer">jsfixer.php</filename>
@@ -20,6 +20,64 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field
+					name="jquery_use"
+					type="radio"
+					label="JFIELD_PLG_JSFIXER_JQUERY_USE_LABEL"
+					description="JFIELD_PLG_JSFIXER_JQUERY_USE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="jquery" type="text"
+					description="JFIELD_PLG_JSFIXER_JQUERY_DESC"
+					label="JFIELD_PLG_JSFIXER_JQUERY_LABEL"
+					size="5"
+					showon="jquery_use:1"
+				/>
+				<field name="jquery_integrity" type="text"
+					description="JFIELD_PLG_JSFIXER_JQUERY_INTEGRITY_DESC"
+					label="JFIELD_PLG_JSFIXER_JQUERY_INTEGRITY_LABEL"
+					size="5"
+					showon="jquery_use:1"
+				/>
+				<field name="jquery_migrate" type="text"
+					description="JFIELD_PLG_JSFIXER_JQUERY_MIGRATE_DESC"
+					label="JFIELD_PLG_JSFIXER_JQUERY_MIGRATE_LABEL"
+					size="5"
+					showon="jquery_use:1"
+				/>
+				<field name="jquery_migrate_integrity" type="text"
+					description="JFIELD_PLG_JSFIXER_JQUERY_MIGRATE_INTEGRITY_DESC"
+					label="JFIELD_PLG_JSFIXER_JQUERY_MIGRATE_INTEGRITY_LABEL"
+					size="5"
+					showon="jquery_use:1"
+				/>
+				<field
+					name="bootstrap_use"
+					type="radio"
+					label="JFIELD_PLG_JSFIXER_BOOTSTRAP_USE_LABEL"
+					description="JFIELD_PLG_JSFIXER_BOOTSTRAP_USE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="bootstrap" type="text"
+					description="JFIELD_PLG_JSFIXER_BOOTSTRAP_DESC"
+					label="JFIELD_PLG_JSFIXER_BOOTSTRAP_LABEL"
+					size="5"
+					showon="bootstrap_use:1"
+				/>
+				<field name="bootstrap_integrity" type="text"
+					description="JFIELD_PLG_JSFIXER_BOOTSTRAP_INTEGRITY_DESC"
+					label="JFIELD_PLG_JSFIXER_BOOTSTRAP_INTEGRITY_LABEL"
+					size="5"
+					showon="bootstrap_use:1"
+				/>
 			</fieldset>
 		</fields>
 	</config>
