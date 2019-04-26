@@ -42,3 +42,5 @@ I'm Not Your Mother, But I Still Clean Up After You
 Once you start playing with other versions of jQuery, you will notice some errors getting thrown by both the tootip and popover javascript code. The reason for that is the routines in core don't check before calling, and when nothing uses tooltips ot popovers, the function isn't there to be called.
 
 The other function of this plugin (where the "fixer" part comes from) is that it includes cleaned-up versions of those two routines which it overrides the existing core routines with, eliminating the tendency to litter your user's browser consoles with error messages (the errors don't hurt anything by being there, except perhaps your pride).
+
+With a tip of the Fedora to [Mike Babker](https://github.com/mbabker) whose Bootstrap3 demo was the source for the onAfterInitialize method in this plugin.
