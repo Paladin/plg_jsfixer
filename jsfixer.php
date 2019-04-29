@@ -1,7 +1,16 @@
 <?php
-// no direct access
+/**
+ * @package     PK Templates
+ * @subpackage  plg.jsfixer
+ *
+ * @copyright   Copyright (C) 2019 PKWARE, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 defined( '_JEXEC' ) or die;
-
+/**
+ * Plugin that enables loading a different javascript library that the Joomla default,
+ * as well as fixing sloppy code in some of the bootstrap core routines.
+ */
 class PlgSystemJsfixer extends JPlugin
 {
 	/**
@@ -17,7 +26,10 @@ class PlgSystemJsfixer extends JPlugin
 	 */
 	protected static $loaded = array();
 	/**
-	 * Listener for onAfterInitialise event
+	 * Listener for onAfterInitialise event. It will load the requested libraries and
+	 * will override the core routines regardless of whether the libraries changed. The
+	 * reasoning behind this behavior is that fixing those routines will not affect the
+	 * current operation at all, and will improve the patched operation.
 	 *
 	 * @return  void
 	 */
