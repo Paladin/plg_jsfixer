@@ -26,6 +26,85 @@ class PlgSystemJsfixer extends JPlugin
 	 */
 	protected static $loaded = array();
 	/**
+	 * Data object holding the params related to jquery overrides
+	 *
+	 * @var	object
+	 */
+	protected static $jquery;
+	/**
+	 * Data object holding the params related to jquery_noconflict overrides
+	 *
+	 * @var	object
+	 */
+	protected static $jqueryNoConflict;
+	/**
+	 * Data object holding the params related to jquery_migrate overrides
+	 *
+	 * @var	object
+	 */
+	protected static $jqueryMigrate;
+	/**
+	 * Data object holding the params related to bootstrap overrides
+	 *
+	 * @var	object
+	 */
+	protected static $bootstrap;
+
+	/**
+	 * Constructor
+	 *
+	 *	Needed because we need to translate the params into static variables to be used later.
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		parent::__construct($subject, $config);
+
+		static::$jquery            = $this->createScriptClass();
+		static::$jquery->use       = $this->params->get('jquery_use', false);
+		static::$jquery->url       = $this->params->get('jquery', '');
+		static::$jquery->integrity = $this->params->get('jquery_integrity', '');
+
+		static::$jqueryNoConflict            = $this->createScriptClass();
+		static::$jqueryNoConflict->use       = $this->params->get('jquery_noconflict_use', static::$jquery->use);
+		static::$jqueryNoConflict->url       = $this->params->get('jquery_noconflict', '');
+		static::$jqueryNoConflict->integrity = $this->params->get('jquery_noconflict_integrity', '');
+
+		static::$jqueryMigrate            = $this->createScriptClass();
+		static::$jqueryMigrate->use       = $this->params->get('jquery_migrate_use', static::$jquery->use);
+		static::$jqueryMigrate->url       = $this->params->get('jquery_migrate', '');
+		static::$jqueryMigrate->integrity = $this->params->get('jquery_migrate_integrity', '');
+
+		static::$bootstrap            = $this->createScriptClass();
+		static::$bootstrap->use       = $this->params->get('bootstrap_use', false);
+		static::$bootstrap->url       = $this->params->get('bootstrap', '');
+		static::$bootstrap->integrity = $this->params->get('bootstrap_integrity', '');
+	}
+
+	/**
+	 * createScriptClass
+	 *
+	 * Returns a stdClass with all the requisite data attributes.
+	 *
+	 * @return	object	A stdClass object with the data fields set to defaults.
+	 */
+	private function createScriptClass()
+	{
+		$class            = new stdClass;
+		$class->use       = false;
+		$class->url       = '';
+		$class->integrity = '';
+
+		return $class;
+	}
+
+	/**
 	 * Listener for onAfterInitialise event. It will load the requested libraries and
 	 * will override the core routines regardless of whether the libraries changed. The
 	 * reasoning behind this behavior is that fixing those routines will not affect the
@@ -51,12 +130,12 @@ class PlgSystemJsfixer extends JPlugin
 			JHtml::register('bootstrap.tooltip', 'PlgSystemJsfixer::tooltip');
 		}
 
-		if (!JHtml::isRegistered('jquery.framework') && $this->params->get('jquery_use', false))
+		if (!JHtml::isRegistered('jquery.framework') && static::$jquery->use)
 		{
 			JHtml::register('jquery.framework', 'PlgSystemJsfixer::framework');
 		}
 
-		if (!JHtml::isRegistered('bootstrap.framework') && $this->params->get('bootstrap_use', false))
+		if (!JHtml::isRegistered('bootstrap.framework') && static::$bootstrap->use)
 		{
 			JHtml::register('bootstrap.framework', 'PlgSystemJsfixer::bootstrapframework');
 		}
@@ -242,30 +321,47 @@ class PlgSystemJsfixer extends JPlugin
 			$debug = (boolean) JFactory::getConfig()->get('debug');
 		}
 
-		JHtml::_('script', '//code.jquery.com/jquery-1.12.4.min.js', array(
-			'relative' => false,
-			'detectDebug' => $debug
-		), array(
-			'integrity' => "sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=",
-			'crossorigin' => "anonymous"
-		));
+		$script = '//code.jquery.com/jquery-1.12.4.min.js';
+		$integrity = 'sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=';
+		if (!empty(static::$jquery->url)) {
+			$script = static::$jquery->url;
+			$integrity = static::$jquery->integrity;
+		}
+		$options = array('relative' => false, 'detectDebug' => $debug);
+		$attributes = array('integrity' => $integrity, 'crossorigin' => "anonymous");
+
+		JHtml::_('script', $script, $options, $attributes);
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			JHtml::_('script', 'jui/jquery-noconflict.js', array('version' => 'auto', 'relative' => true));
+			$script = 'jui/jquery-noconflict.js';
+			$options = array('version' => 'auto', 'relative' => true);
+			$attributes = array();
+			if (!empty(static::$jqueryNoConflict->url)) {
+				$script = static::$jqueryNoConflict->url;
+			}
+			if (!empty(static::$jquery->integrity)) {
+				$attributes = array( 'integrity' => static::$jqueryNoConflict->integrity, 'crossorigin' => "anonymous");
+				$options = array('relative' => false, 'detectDebug' => $debug);
+			}
+
+			JHtml::_('script', $script, $options, $attributes);
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			JHtml::_('script', '//code.jquery.com/jquery-migrate-1.4.1.min.js', array(
-				'relative' => false,
-				'detectDebug' => $debug
-			), array(
-				'integrity' => "sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=",
-				'crossorigin' => "anonymous"
-			));
+			$script = '//code.jquery.com/jquery-migrate-1.4.1.min.js';
+			$integrity = 'sha256-SOuLUArmo4YXtXONKz+uxIGSKneCJG4x0nVcA0pFzV0=';
+			if (!empty(static::$jqueryMigrate->url)) {
+				$script = static::$jqueryMigrate->url;
+				$integrity = static::$jqueryMigrate->integrity;
+			}
+			$options = array('relative' => false, 'detectDebug' => $debug);
+			$attributes = array('integrity' => $integrity, 'crossorigin' => "anonymous");
+
+			JHtml::_('script', $script, $options, $attributes);
 		}
 
 		static::$loaded[__METHOD__] = true;
@@ -300,14 +396,16 @@ class PlgSystemJsfixer extends JPlugin
 			$debug = JDEBUG;
 		}
 
-		JHtml::_('script', '//stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', array(
-			'relative' => false,
-			'detectDebug' => $debug
-		), array(
-			'integrity' => "sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa",
-			'crossorigin' => "anonymous",
-			'async' => "async"
-		));
+		$script = '//stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js';
+		$integrity = 'sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa';
+		if (!empty(static::$bootstrap->url)) {
+			$script = static::$bootstrap->url;
+			$integrity = static::$bootstrap->integrity;
+		}
+		$options = array('relative' => false, 'detectDebug' => $debug);
+		$attributes = array('integrity' => $integrity, 'crossorigin' => "anonymous", 'async' => "async");
+
+		JHtml::_('script', $script, $options, $attributes);
 		static::$loaded[__METHOD__] = true;
 
 		return;
