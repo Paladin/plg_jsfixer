@@ -84,6 +84,7 @@ class PlgSystemJsfixer extends JPlugin
 		static::$bootstrap            = $this->createScriptClass();
 		static::$bootstrap->use       = $this->params->get('bootstrap_use', false);
 		static::$bootstrap->url       = $this->params->get('bootstrap', '');
+		static::$bootstrap->load      = $this->params->get('bootstrap_load', 'defer');
 		static::$bootstrap->integrity = $this->params->get('bootstrap_integrity', '');
 	}
 
@@ -403,7 +404,9 @@ class PlgSystemJsfixer extends JPlugin
 			$integrity = static::$bootstrap->integrity;
 		}
 		$options = array('relative' => false, 'detectDebug' => $debug);
-		$attributes = array('integrity' => $integrity, 'crossorigin' => "anonymous", 'async' => "async");
+		$attributes = array('integrity' => $integrity,
+							'crossorigin' => "anonymous",
+							static::$bootstrap->load => static::$bootstrap->load);
 
 		JHtml::_('script', $script, $options, $attributes);
 		static::$loaded[__METHOD__] = true;

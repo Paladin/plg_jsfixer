@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>arlen.walker@pkware.com</authorEmail>
 	<authorUrl>www.pkware.com</authorUrl>
-	<version>0.7.0</version>
+	<version>0.9.0</version>
 	<description>PLG_SYSTEM_JSFIXER_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="jsfixer">jsfixer.php</filename>
@@ -78,6 +78,18 @@
 					size="5"
 					showon="bootstrap_use:1"
 				/>
+				<field
+					name="bootstrap_load"
+					type="radio"
+					label="JFIELD_PLG_JSFIXER_BOOTSTRAP_LOAD_LABEL"
+					description="JFIELD_PLG_JSFIXER_BOOTSTRAP_LOAD_DESC"
+					class="btn-group btn-group-yesno"
+					default="defer"
+					showon="bootstrap_use:1"
+					>
+					<option value="async">JFIELD_PLG_JSFIXER_ASYNC</option>
+					<option value="defer">JFIELD_PLG_JSFIXER_DEFER</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
