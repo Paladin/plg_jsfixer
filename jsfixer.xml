@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>arlen.walker@pkware.com</authorEmail>
 	<authorUrl>www.pkware.com</authorUrl>
-	<version>0.9.0</version>
+	<version>0.9.1</version>
 	<description>PLG_SYSTEM_JSFIXER_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="jsfixer">jsfixer.php</filename>
@@ -20,6 +20,11 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field
+					type="spacer"
+					name="jquery_settings"
+					label="&lt;h3 style='border-bottom:1px solid;width:100%'&gt;jQuery Settings&lt;/h3&gt;"
+				/>
 				<field
 					name="jquery_use"
 					type="radio"
@@ -54,6 +59,11 @@
 					label="JFIELD_PLG_JSFIXER_JQUERY_MIGRATE_INTEGRITY_LABEL"
 					size="5"
 					showon="jquery_use:1"
+				/>
+				<field
+					type="spacer"
+					name="bootstrap_settings"
+					label="&lt;h3 style='border-bottom:1px solid;width:100%'&gt;Bootstrap Settings&lt;/h3&gt;"
 				/>
 				<field
 					name="bootstrap_use"
