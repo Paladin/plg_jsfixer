@@ -32,15 +32,17 @@ That will let your user load jQuery from the main jQuery CDN using whatever sche
 How Do I Know You're You?
 -------------------------
 
+In addition to the URL field, there's also one for the Integrity Hash (also known as the SRI Hash).
+
 Whenever you're loading sites from a server not in your control, there's always the risk that an attacker has penetrated the CDN and injected some malicious code into every download. [Subresource Integrity checking](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) was invented to mitigate that risk.
 
-Browsers that support this security feature are given a hash they can check to ensure they received the file they expected to receive. jQuery and Bootstrap both make those hashes available to you along with their CDN links. Enter both the URL and the SRI hash in fields provided for that purpose.
+Browsers that support this security feature are given a hash they can check to ensure they received the file they expected to receive. jQuery and Bootstrap both make those hashes available to you along with their CDN links. By default, Joomla does not use this, but if given the hash, it can use it, and this plugin provides a field for you to supply the hash for the library you want to use.
 
 I'm Not Your Mother, But I Still Clean Up After You
 ---------------------------------------------------
 
-Once you start playing with other versions of jQuery, you will notice some errors getting thrown by both the tootip and popover javascript code. The reason for that is the routines in core don't check before calling, and when nothing uses tooltips ot popovers, the function isn't there to be called.
+Once you start playing with other versions of jQuery, you will notice some errors getting thrown by both the tootip and popover javascript code. The reason for that is the routines in core don't check before calling, and when nothing uses tooltips or popovers, the function isn't there to be called, so an error is thrown.
 
-The other function of this plugin (where the "fixer" part comes from) is that it includes cleaned-up versions of those two routines which it overrides the existing core routines with, eliminating the tendency to litter your user's browser consoles with error messages (the errors don't hurt anything by being there, except perhaps your pride).
+The other function of this plugin (where the "fixer" part comes from) is that it includes cleaned-up versions of those two routines to override the existing core routines with, eliminating the tendency to litter your user's browser consoles with error messages (the errors don't typically hurt anything by being there, except perhaps your pride).
 
-With a tip of the Fedora to [Mike Babker](https://github.com/mbabker) whose Bootstrap3 demo was the source for the onAfterInitialize method in this plugin.
+With a tip of the Fedora to [Mike Babker](https://github.com/mbabker) whose Bootstrap3 demo was the source from which the onAfterInitialize method in this plugin was derived.
